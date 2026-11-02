@@ -77,7 +77,8 @@ const BROKER = "wss://broker.hivemq.com:8884/mqtt";
 const BASE = "sltgh";
 const STALE_MS = 25000;
 
-const farms = {};
+const farms = Object.create(null);
+const NAME_OK = /^[A-Z0-9-]{1,32}$/i;
 let showSim = new URLSearchParams(location.search).get("sim") !== "0";
 try { if (localStorage.getItem("ghShowSim") === "0") showSim = false; } catch {}
 const simBtn = document.getElementById("simBtn");
@@ -98,11 +99,17 @@ client.on("close", () => { conn.textContent = "broker offline"; conn.className =
 
 client.on("message", (topic, payload) => {
   const [, name, kind] = topic.split("/");
-  if (!name || name === "region" || name.length > 32) return;
+  if (!name || name === "region" || !NAME_OK.test(name)) return;
   const text = payload.toString();
   const f = farms[name] ||= { data: null, lastSeen: 0, status: "?" };
   if (kind === "telemetry") {
-    try { f.data = JSON.parse(text); f.lastSeen = Date.now(); f.status = "online"; f.sim = f.data.sim === true; } catch { return; }
+    let d; try { d = JSON.parse(text); } catch { return; }
+    if (!d || typeof d !== "object" || Array.isArray(d)) return;
+    const num = v => (typeof v === "number" && isFinite(v) ? v : null);
+    const str = v => (typeof v === "string" ? v.slice(0, 60) : "");
+    f.data = { state: str(d.state), mode: str(d.mode), rain: d.rain === true, temp: num(d.temp), hum: num(d.hum),
+               soil: num(d.soil), fan: num(d.fan), pump: str(d.pump), door: str(d.door), alarms: str(d.alarms), rssi: num(d.rssi) };
+    f.lastSeen = Date.now(); f.status = "online"; f.sim = d.sim === true;
   } else if (kind === "status") {
     if (text !== f.status && f.data) addLog(`${name} is ${text}`);
     f.status = text;
@@ -150,6 +157,7 @@ function render() {
 
   for (const name of names) {
     const f = farms[name], d = f.data;
+    try {
     const offline = isOffline(f);
     const alarms = (d.alarms || "").trim();
     const critical = /HEAT|PUMP/.test(alarms);
@@ -165,7 +173,7 @@ function render() {
     const kv = el("div", "kv");
     const soil = el("span");
     soil.append(document.createTextNode(d.soil != null ? `${d.soil} %` : "–"));
-    if (d.soil != null) { const b = el("div", "bar soil" + (d.soil < 30 ? " dry" : "")); const i = el("i"); i.style.width = d.soil + "%"; b.append(i); soil.append(b); }
+    if (d.soil != null) { const b = el("div", "bar soil" + (d.soil < 30 ? " dry" : "")); const i = el("i"); i.style.width = Math.max(0, Math.min(100, d.soil)) + "%"; b.append(i); soil.append(b); }
     const state = el("span", "", d.state || "–");
     if (d.rain) state.append(el("span", "tag", "RAIN"));
     if (d.mode && d.mode !== "AUTO") state.append(el("span", "tag", d.mode));
@@ -187,6 +195,7 @@ function render() {
     }
     card.append(head, kv, al, btns);
     grid.append(card);
+    } catch (e) { console.warn("bad card", name, e); }
   }
   document.getElementById("nFarms").textContent = names.length;
   document.getElementById("nAlarm").textContent = nAlarm;
