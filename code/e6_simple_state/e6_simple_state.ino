@@ -33,16 +33,16 @@ void loop() {
   float temp = dht.readTemperature();
   float hum = dht.readHumidity();
 
-  int soil = map(analogRead(soilPin), 0, 4095, 0, 100);
+  int soil = analogRead(soilPin) * 100 / 4095;
 
-  int fanSpeed = map(temp, 25, 35, 0, 255);
+  int fanSpeed;
 
-  if (fanSpeed < 0) {
-    fanSpeed = 0;
-  }
-
-  if (fanSpeed > 255) {
+  if (temp > 35) {
     fanSpeed = 255;
+  } else if (temp > 28) {
+    fanSpeed = 120;
+  } else {
+    fanSpeed = 0;
   }
 
   int door = digitalRead(doorPin);
