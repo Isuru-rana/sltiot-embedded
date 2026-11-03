@@ -12,8 +12,14 @@ Everything runs online. No hardware, no installs: open a Wokwi link and press th
 | E2 ADC | Soil moisture: raw, volts, percent | https://wokwi.com/projects/479595875908180993 |
 | E3 PWM | Fan speed follows temperature | https://wokwi.com/projects/479595945188667393 |
 | E4 Buses | I2C scan, OLED status screen, DHT22 | https://wokwi.com/projects/479596015335278593 |
+| E6 State machine | IDLE, WATERING, ALARM with only if/else (no timers) | https://wokwi.com/projects/479663430209541121 |
+
+Start of Day 2: timing and reliability
+
+| Build | What it shows | Open and run |
+|---|---|---|
 | E5 Timing | delay() vs millis(): why a device goes deaf | https://wokwi.com/projects/479596085437845505 |
-| E6 State machine | Full controller + watchdog (type `h`) | https://wokwi.com/projects/479596160729821185 |
+| E6 with timers | Adds SOAKING with a timer + watchdog (type `h`) | https://wokwi.com/projects/479596160729821185 |
 
 All builds share one circuit (`wokwi/diagram.json`):
 
