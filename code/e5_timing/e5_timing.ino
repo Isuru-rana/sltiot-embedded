@@ -1,49 +1,49 @@
-// E5 TIMING: why delay() makes a device deaf
-// The FAN LED blinks every 2 s. Press WATER and see how fast the pump reacts.
-// USE_MILLIS 0: blink with delay(). Presses are missed.
-// USE_MILLIS 1: blink with millis(). Every press works at once.
+int buttonPin = 14;
+int pumpPin = 26;
+int fanPin = 25;
 
-#define USE_MILLIS 0
-
-const int BUTTON_PIN = 14;
-const int PUMP_PIN   = 26;
-const int FAN_PIN    = 25;
+bool useMillis = false;
 
 bool pumpOn = false;
 bool fanOn = false;
 int lastButton = HIGH;
-unsigned long lastBlink = 0;
-
-void checkButton() {
-  int b = digitalRead(BUTTON_PIN);
-  if (b == LOW && lastButton == HIGH) {
-    pumpOn = !pumpOn;
-    digitalWrite(PUMP_PIN, pumpOn);
-    Serial.printf("%lu ms: press seen, pump %s\n", millis(), pumpOn ? "ON" : "OFF");
-    delay(30);   // crude debounce
-  }
-  lastButton = b;
-}
+unsigned long lastBlinkTime = 0;
 
 void setup() {
   Serial.begin(115200);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-  pinMode(PUMP_PIN, OUTPUT);
-  pinMode(FAN_PIN, OUTPUT);
-  Serial.println(USE_MILLIS ? "E5 with millis(): never blocks" : "E5 with delay(): blocks 2 s at a time");
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(pumpPin, OUTPUT);
+  pinMode(fanPin, OUTPUT);
+
+  if (useMillis == true) {
+    Serial.println("E5 with millis(). Never waits.");
+  } else {
+    Serial.println("E5 with delay(). Waits 2 seconds each time.");
+  }
 }
 
 void loop() {
-#if USE_MILLIS
-  if (millis() - lastBlink >= 2000) {    // is it time yet? no waiting
-    lastBlink = millis();
+  if (useMillis == true) {
+    if (millis() - lastBlinkTime >= 2000) {
+      lastBlinkTime = millis();
+      fanOn = !fanOn;
+      digitalWrite(fanPin, fanOn);
+    }
+  } else {
     fanOn = !fanOn;
-    digitalWrite(FAN_PIN, fanOn);
+    digitalWrite(fanPin, fanOn);
+    delay(2000);
   }
-#else
-  fanOn = !fanOn;
-  digitalWrite(FAN_PIN, fanOn);
-  delay(2000);                           // the CPU does nothing else here
-#endif
-  checkButton();
+
+  int button = digitalRead(buttonPin);
+
+  if (button == LOW && lastButton == HIGH) {
+    pumpOn = !pumpOn;
+    digitalWrite(pumpPin, pumpOn);
+    Serial.print(millis());
+    Serial.println(" ms: press seen");
+    delay(30);
+  }
+
+  lastButton = button;
 }

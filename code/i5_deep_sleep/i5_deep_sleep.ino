@@ -1,52 +1,64 @@
-// I5 DEEP SLEEP: a battery soil sensor out in the field
-// Wake, measure, send one message, sleep. The ESP32 is awake about 2 to 4 s per cycle.
-// Asleep it uses about 10 microamps, awake about 100 mA. That is the whole battery-life secret.
-// RTC memory survives deep sleep, normal RAM does not.
-// Wokwi note: the simulator restarts the chip instead of a true deep sleep, so the wake
-// counter shows 1 every time there. On a real ESP32 it counts 1, 2, 3...
-
 #include <WiFi.h>
 #include <PubSubClient.h>
 
-// ---- YOUR TURN: your sensor name ----
-const char* NODE_ID = "FIELD-01";
-const int SLEEP_S = 20;               // a real field sensor sleeps 15 to 60 minutes
-const int SOIL_PIN = 34;
+String nodeId = "FIELD-01";
 
-RTC_DATA_ATTR int bootCount = 0;      // kept in RTC memory across deep sleep
-RTC_DATA_ATTR int lastSoil = -1;
+int soilPin = 34;
+int sleepSeconds = 20;
 
-WiFiClient net;
-PubSubClient mqtt(net);
+RTC_DATA_ATTR int wakeCount = 0;
+
+WiFiClient wifiClient;
+PubSubClient mqtt(wifiClient);
 
 void setup() {
-  unsigned long t0 = millis();
   Serial.begin(115200);
-  bootCount++;
-  int soil = map(analogRead(SOIL_PIN), 0, 4095, 0, 100);
-  Serial.printf("\nWake #%d (reason %d). Soil %d %% (last time %d %%)\n",
-                bootCount, esp_sleep_get_wakeup_cause(), soil, lastSoil);
-  lastSoil = soil;
+  wakeCount++;
+
+  int soil = map(analogRead(soilPin), 0, 4095, 0, 100);
+
+  Serial.println();
+  Serial.print("Wake number ");
+  Serial.print(wakeCount);
+  Serial.print(". Soil ");
+  Serial.print(soil);
+  Serial.println(" %");
 
   WiFi.begin("Wokwi-GUEST", "", 6);
-  while (WiFi.status() != WL_CONNECTED && millis() - t0 < 20000) delay(100);
+
+  while (WiFi.status() != WL_CONNECTED && millis() < 20000) {
+    delay(100);
+  }
+
   mqtt.setServer("broker.hivemq.com", 1883);
-  String id = String("node-") + NODE_ID + "-" + String(random(0xffff), HEX);
-  if (WiFi.status() == WL_CONNECTED && mqtt.connect(id.c_str())) {
-    char json[120];
-    snprintf(json, sizeof json, "{\"node\":\"%s\",\"soil\":%d,\"wake\":%d}", NODE_ID, soil, bootCount);
-    mqtt.publish((String("sltgh/") + NODE_ID + "/telemetry").c_str(), json);
+  String clientId = "node-" + nodeId + "-" + String(random(100000));
+
+  if (WiFi.status() == WL_CONNECTED && mqtt.connect(clientId.c_str())) {
+    String json = "{";
+    json = json + "\"node\":\"" + nodeId + "\",";
+    json = json + "\"soil\":" + String(soil) + ",";
+    json = json + "\"wake\":" + String(wakeCount);
+    json = json + "}";
+
+    String topic = "sltgh/" + nodeId + "/telemetry";
+    mqtt.publish(topic.c_str(), json.c_str());
     mqtt.loop();
-    delay(100);                        // let the message leave before the radio switches off
-    Serial.printf("SENT %s\n", json);
+    delay(100);
+    Serial.println("SENT " + json);
   } else {
     Serial.println("No network this time. Try again next wake.");
   }
 
-  Serial.printf("Awake for %lu ms. Sleeping %d s...\n", millis() - t0, SLEEP_S);
+  Serial.print("Awake for ");
+  Serial.print(millis());
+  Serial.print(" ms. Sleeping ");
+  Serial.print(sleepSeconds);
+  Serial.println(" s...");
   Serial.flush();
-  esp_sleep_enable_timer_wakeup((uint64_t)SLEEP_S * 1000000ULL);
-  esp_deep_sleep_start();              // never returns: next wake starts setup() again
+
+  esp_sleep_enable_timer_wakeup(sleepSeconds * 1000000ULL);
+  esp_deep_sleep_start();
 }
 
-void loop() { }                        // never reached
+void loop() {
+}

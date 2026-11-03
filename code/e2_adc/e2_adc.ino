@@ -1,26 +1,34 @@
-// E2 ANALOG IN (ADC): how wet is the soil?
-// The ESP32 ADC turns 0 to 3.3 V into a number from 0 to 4095 (12 bits).
-// In Wokwi the SOIL knob stands in for a soil moisture probe.
-
-const int SOIL_PIN = 34;      // input-only pin, ADC1
-const int SAMPLES  = 16;      // average to remove noise
-const int DRY_BELOW = 30;     // %
+int soilPin = 34;
 
 void setup() {
   Serial.begin(115200);
-  analogReadResolution(12);
   Serial.println("E2 ready. Turn the SOIL knob.");
 }
 
 void loop() {
-  long sum = 0;
-  for (int i = 0; i < SAMPLES; i++) sum += analogRead(SOIL_PIN);
-  int raw = sum / SAMPLES;
+  long total = 0;
 
-  float volts = raw * 3.3 / 4095.0;
+  for (int i = 0; i < 16; i++) {
+    total = total + analogRead(soilPin);
+  }
+
+  int raw = total / 16;
+  float volts = raw * 3.3 / 4095;
   int moisture = map(raw, 0, 4095, 0, 100);
 
-  Serial.printf("raw=%4d  volts=%.2f V  moisture=%3d %%  %s\n",
-                raw, volts, moisture, moisture < DRY_BELOW ? "DRY: needs water" : "ok");
+  Serial.print("Raw: ");
+  Serial.print(raw);
+  Serial.print("   Volts: ");
+  Serial.print(volts);
+  Serial.print("   Moisture: ");
+  Serial.print(moisture);
+  Serial.print(" %");
+
+  if (moisture < 30) {
+    Serial.println("   DRY, needs water");
+  } else {
+    Serial.println("   OK");
+  }
+
   delay(1000);
 }

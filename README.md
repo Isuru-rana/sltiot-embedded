@@ -33,13 +33,13 @@ All builds share one circuit (`wokwi/diagram.json`):
 | Build | What it shows | Open and run |
 |---|---|---|
 | I1 Publish | WiFi + MQTT: one JSON message every 5 s | https://wokwi.com/projects/479597790735339521 |
-| I2 Online greenhouse | E6 + telemetry, Last Will, remote orders (`USE_TLS 1` = encrypted) | https://wokwi.com/projects/479597904048686081 |
+| I2 Online greenhouse | E6 + telemetry, Last Will, remote orders (`useTLS = true` = encrypted) | https://wokwi.com/projects/479597904048686081 |
 | I3 Phone alerts | I2 + ntfy push when an alarm starts or clears | https://wokwi.com/projects/479598475249100801 |
 | I4 ThingSpeak | HTTP to a cloud platform with free charts (needs your Write API Key) | https://wokwi.com/projects/479598545659951105 |
 | I5 Deep sleep | Battery field sensor: wake, send, sleep | https://wokwi.com/projects/479598016110044161 |
 
-Change `FARM_ID` to your own name (place + number, e.g. `KANDY-21`) and your greenhouse appears on the wall.
-In I3 change `NTFY_TOPIC` to a hard-to-guess name and subscribe to it in the free ntfy app.
+Change `farmId` to your own name (place + number, e.g. `KANDY-21`) and your greenhouse appears on the wall.
+In I3 change `ntfyTopic` to a hard-to-guess name and subscribe to it in the free ntfy app.
 I5 note: Wokwi restarts the chip instead of a true deep sleep, so its wake counter stays at 1 there. On real hardware it counts up.
 
 ## The farm
