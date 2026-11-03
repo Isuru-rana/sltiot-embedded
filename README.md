@@ -50,6 +50,7 @@ I5 note: Wokwi restarts the chip instead of a true deep sleep, so its wake count
 | Analog | Knob on pin 34 sets LED brightness on pin 18 (`pot * 255 / 4095`) | https://wokwi.com/projects/479656776007799809 |
 | DHT22 | Read temperature and humidity (pin 15) | https://wokwi.com/projects/479658635297239041 |
 | OLED | Print text on the SSD1306 screen (SDA 21, SCL 22) | https://wokwi.com/projects/479660226991136769 |
+| Simple device | Whole greenhouse with only if/else: fan by temp, pump by soil or button, alarm by door or heat, OLED | https://wokwi.com/projects/479662728307194881 |
 
 Code in `code/basics/`.
 
