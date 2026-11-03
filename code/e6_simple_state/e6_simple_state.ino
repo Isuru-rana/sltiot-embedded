@@ -49,41 +49,45 @@ void loop() {
   int button = digitalRead(buttonPin);
 
   if (state == "IDLE") {
+    digitalWrite(pumpPin, LOW);
+
+    if (door == HIGH) {
+      analogWrite(fanPin, 0);
+      digitalWrite(alarmPin, HIGH);
+    } else {
+      analogWrite(fanPin, fanSpeed);
+      digitalWrite(alarmPin, LOW);
+    }
+
     if (temp > 40) {
       state = "ALARM";
     } else if (soil < 30 || button == LOW) {
       state = "WATERING";
     }
   } else if (state == "WATERING") {
+    digitalWrite(pumpPin, HIGH);
+
+    if (door == HIGH) {
+      analogWrite(fanPin, 0);
+      digitalWrite(alarmPin, HIGH);
+    } else {
+      analogWrite(fanPin, fanSpeed);
+      digitalWrite(alarmPin, LOW);
+    }
+
     if (temp > 40) {
       state = "ALARM";
     } else if (soil > 60) {
       state = "IDLE";
     }
   } else if (state == "ALARM") {
+    digitalWrite(pumpPin, LOW);
+    analogWrite(fanPin, 255);
+    digitalWrite(alarmPin, HIGH);
+
     if (temp < 38) {
       state = "IDLE";
     }
-  }
-
-  if (state == "WATERING") {
-    digitalWrite(pumpPin, HIGH);
-  } else {
-    digitalWrite(pumpPin, LOW);
-  }
-
-  if (state == "ALARM") {
-    analogWrite(fanPin, 255);
-  } else if (door == HIGH) {
-    analogWrite(fanPin, 0);
-  } else {
-    analogWrite(fanPin, fanSpeed);
-  }
-
-  if (state == "ALARM" || door == HIGH) {
-    digitalWrite(alarmPin, HIGH);
-  } else {
-    digitalWrite(alarmPin, LOW);
   }
 
   Serial.print("State: ");
