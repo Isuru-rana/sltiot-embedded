@@ -42,6 +42,17 @@ Change `farmId` to your own name (place + number, e.g. `KANDY-21`) and your gree
 In I3 change `ntfyTopic` to a hard-to-guess name and subscribe to it in the free ntfy app.
 I5 note: Wokwi restarts the chip instead of a true deep sleep, so its wake counter stays at 1 there. On real hardware it counts up.
 
+## Basic examples (one thing at a time)
+
+| Example | What it shows | Open and run |
+|---|---|---|
+| Digital | Switch on pin 14 turns the LED on pin 18 on and off | https://wokwi.com/projects/479648555380147201 |
+| Analog | Knob on pin 34 sets LED brightness on pin 18 (`pot * 255 / 4095`) | https://wokwi.com/projects/479656776007799809 |
+| DHT22 | Read temperature and humidity (pin 15) | https://wokwi.com/projects/479658635297239041 |
+| OLED | Print text on the SSD1306 screen (SDA 21, SCL 22) | https://wokwi.com/projects/479660226991136769 |
+
+Code in `code/basics/`.
+
 ## The farm
 
 - **Farm Simulator** (15 greenhouses, keep its tab visible): https://wokwi.com/projects/479596422394682369

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "author": "Isuru Ranaweera",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -9.6, "left": 91.24, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": -58.9, "left": -48.2, "attrs": {} },
+    { "type": "wokwi-led", "id": "led1", "top": 15.6, "left": 263, "attrs": { "color": "red" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "pot1:VCC", "esp:3V3", "red", [ "v9.6", "h56.8", "v-105.6" ] ],
+    [ "pot1:GND", "esp:GND.1", "black", [ "v28.8" ] ],
+    [ "esp:34", "pot1:SIG", "green", [ "h0" ] ],
+    [ "esp:GND.3", "led1:C", "black", [ "h0" ] ],
+    [ "led1:A", "esp:18", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
