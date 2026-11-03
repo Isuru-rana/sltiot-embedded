@@ -35,16 +35,6 @@ void loop() {
 
   int soil = analogRead(soilPin) * 100 / 4095;
 
-  int fanSpeed;
-
-  if (temp > 35) {
-    fanSpeed = 255;
-  } else if (temp > 28) {
-    fanSpeed = 120;
-  } else {
-    fanSpeed = 0;
-  }
-
   int door = digitalRead(doorPin);
   int button = digitalRead(buttonPin);
 
@@ -52,11 +42,16 @@ void loop() {
     digitalWrite(pumpPin, LOW);
 
     if (door == HIGH) {
-      analogWrite(fanPin, 0);
+      digitalWrite(fanPin, LOW);
       digitalWrite(alarmPin, HIGH);
     } else {
-      analogWrite(fanPin, fanSpeed);
       digitalWrite(alarmPin, LOW);
+
+      if (temp > 30) {
+        digitalWrite(fanPin, HIGH);
+      } else {
+        digitalWrite(fanPin, LOW);
+      }
     }
 
     if (temp > 40) {
@@ -68,11 +63,16 @@ void loop() {
     digitalWrite(pumpPin, HIGH);
 
     if (door == HIGH) {
-      analogWrite(fanPin, 0);
+      digitalWrite(fanPin, LOW);
       digitalWrite(alarmPin, HIGH);
     } else {
-      analogWrite(fanPin, fanSpeed);
       digitalWrite(alarmPin, LOW);
+
+      if (temp > 30) {
+        digitalWrite(fanPin, HIGH);
+      } else {
+        digitalWrite(fanPin, LOW);
+      }
     }
 
     if (temp > 40) {
@@ -82,7 +82,7 @@ void loop() {
     }
   } else if (state == "ALARM") {
     digitalWrite(pumpPin, LOW);
-    analogWrite(fanPin, 255);
+    digitalWrite(fanPin, HIGH);
     digitalWrite(alarmPin, HIGH);
 
     if (temp < 38) {
@@ -118,8 +118,6 @@ void loop() {
   oled.println(" %RH");
   oled.print("Soil ");
   oled.print(soil);
-  oled.print(" %  Fan ");
-  oled.print(fanSpeed * 100 / 255);
   oled.print(" %");
   oled.display();
 
