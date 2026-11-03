@@ -18,32 +18,35 @@ String state = "IDLE";
 
 void setup() {
   Serial.begin(115200);
-
   pinMode(doorPin, INPUT_PULLUP);
   pinMode(buttonPin, INPUT_PULLUP);
-  pinMode(fanPin, OUTPUT);
   pinMode(pumpPin, OUTPUT);
   pinMode(alarmPin, OUTPUT);
-
+  pinMode(fanPin, OUTPUT);
   dht.begin();
-
   Wire.begin(21, 22);
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   oled.setTextColor(SSD1306_WHITE);
 }
 
 void loop() {
-  float temp;
-  temp = dht.readTemperature();
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
 
-  int soil;
-  soil = analogRead(soilPin) * 100 / 4095;
+  int soil = map(analogRead(soilPin), 0, 4095, 0, 100);
 
-  int door;
-  door = digitalRead(doorPin);
+  int fanSpeed = map(temp, 25, 35, 0, 255);
 
-  int button;
-  button = digitalRead(buttonPin);
+  if (fanSpeed < 0) {
+    fanSpeed = 0;
+  }
+
+  if (fanSpeed > 255) {
+    fanSpeed = 255;
+  }
+
+  int door = digitalRead(doorPin);
+  int button = digitalRead(buttonPin);
 
   if (state == "IDLE") {
     if (temp > 40) {
@@ -73,10 +76,8 @@ void loop() {
     analogWrite(fanPin, 255);
   } else if (door == HIGH) {
     analogWrite(fanPin, 0);
-  } else if (temp > 28) {
-    analogWrite(fanPin, 120);
   } else {
-    analogWrite(fanPin, 0);
+    analogWrite(fanPin, fanSpeed);
   }
 
   if (state == "ALARM" || door == HIGH) {
@@ -97,17 +98,25 @@ void loop() {
   oled.setCursor(0, 0);
   oled.print("GREENHOUSE");
 
+  if (door == HIGH) {
+    oled.print("  DOOR!");
+  }
+
   oled.setTextSize(2);
-  oled.setCursor(0, 16);
-  oled.print(state);
+  oled.setCursor(0, 14);
+  oled.println(state);
 
   oled.setTextSize(1);
-  oled.setCursor(0, 44);
+  oled.setCursor(0, 38);
   oled.print(temp, 1);
-  oled.print(" C   Soil ");
+  oled.print(" C  ");
+  oled.print(hum, 0);
+  oled.println(" %RH");
+  oled.print("Soil ");
   oled.print(soil);
+  oled.print(" %  Fan ");
+  oled.print(fanSpeed * 100 / 255);
   oled.print(" %");
-
   oled.display();
 
   delay(500);
