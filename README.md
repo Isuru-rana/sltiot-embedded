@@ -40,6 +40,7 @@ Start of Day 2: timing and reliability
 | SOAKING with millis | Same device with millis(): heat alarm comes at once | https://wokwi.com/projects/479735818218448897 |
 | SOAKING delay + ntfy | SOAKING with delay, sends each state change to your phone (ntfy) | https://wokwi.com/projects/479754729751775233 |
 | SOAKING millis + ntfy | SOAKING with millis, sends each state change to your phone (ntfy) | https://wokwi.com/projects/479754805859546113 |
+| SOAKING delay + MQTT | SOAKING with delay, publishes each state change to `sltiot/change-me/state` | https://wokwi.com/projects/479754868729033729 |
 | Interrupt basic | Loop is busy blinking with delay(). POLL button is missed, INTERRUPT button lights its LED at once | https://wokwi.com/projects/479735998133173249 |
 | E6 with timers | Adds SOAKING with a timer + watchdog (type `h`) | https://wokwi.com/projects/479596160729821185 |
 
