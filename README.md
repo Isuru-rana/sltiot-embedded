@@ -33,6 +33,8 @@ Start of Day 2: timing and reliability
 | Build | What it shows | Open and run |
 |---|---|---|
 | E5 Timing | delay() vs millis(): why a device goes deaf | https://wokwi.com/projects/479596085437845505 |
+| SOAKING with delay | Water 5 s, soak 10 s with delay(): heat alarm is missed while it waits | https://wokwi.com/projects/479735800185034753 |
+| SOAKING with millis | Same device with millis(): heat alarm comes at once | https://wokwi.com/projects/479735818218448897 |
 | E6 with timers | Adds SOAKING with a timer + watchdog (type `h`) | https://wokwi.com/projects/479596160729821185 |
 
 All builds share one circuit (`wokwi/diagram.json`):
