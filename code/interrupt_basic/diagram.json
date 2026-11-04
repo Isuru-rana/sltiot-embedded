@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "author": "SLT IoT and Embedded Systems",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-led", "id": "blink", "top": -150, "left": -20, "attrs": { "color": "yellow", "label": "BLINK" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": -72, "left": -20.75, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-led", "id": "pollLed", "top": -150, "left": 30, "attrs": { "color": "blue", "label": "POLL" } },
+    { "type": "wokwi-resistor", "id": "r2", "top": -72, "left": 28.25, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-led", "id": "intLed", "top": -150, "left": 80, "attrs": { "color": "red", "label": "INTERRUPT" } },
+    { "type": "wokwi-resistor", "id": "r3", "top": -72, "left": 76.25, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-pushbutton", "id": "pollBtn", "top": -60, "left": -180, "attrs": { "color": "blue", "label": "POLL", "bounce": "0" } },
+    { "type": "wokwi-pushbutton", "id": "intBtn", "top": 40, "left": -180, "attrs": { "color": "red", "label": "INTERRUPT", "bounce": "0" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "esp:25", "r1:2", "green", [] ],
+    [ "r1:1", "blink:A", "green", [] ],
+    [ "blink:C", "esp:GND.2", "black", [] ],
+    [ "esp:26", "r2:2", "blue", [] ],
+    [ "r2:1", "pollLed:A", "blue", [] ],
+    [ "pollLed:C", "esp:GND.2", "black", [] ],
+    [ "esp:4", "r3:2", "red", [] ],
+    [ "r3:1", "intLed:A", "red", [] ],
+    [ "intLed:C", "esp:GND.2", "black", [] ],
+    [ "pollBtn:1.r", "esp:13", "blue", [] ],
+    [ "pollBtn:2.r", "esp:GND.1", "black", [] ],
+    [ "intBtn:1.r", "esp:14", "red", [] ],
+    [ "intBtn:2.r", "esp:GND.1", "black", [] ]
+  ],
+  "dependencies": {}
+}
