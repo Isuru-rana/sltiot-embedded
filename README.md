@@ -2,6 +2,8 @@
 
 **Live Greenhouse Control Wall:** https://isuru-rana.github.io/sltiot-embedded/
 
+**MQTT Notifier** (beep + browser notification for any topic): https://isuru-rana.github.io/sltiot-embedded/notify/
+
 Everything runs online. No hardware, no installs: open a Wokwi link and press the green play button.
 
 ## Day 1: Embedded (inside the greenhouse controller)
