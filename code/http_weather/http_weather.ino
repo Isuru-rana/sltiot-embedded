@@ -18,7 +18,7 @@ void setup() {
 
 void loop() {
   HTTPClient http;
-  http.begin("http://wttr.in/Colombo?format=%l:+%C+%t+%h");
+  http.begin("http://wttr.in/Colombo?format=%l:+%C+%t+%h&m");
   int code = http.GET();
 
   Serial.print("HTTP code: ");
