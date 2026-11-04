@@ -39,7 +39,7 @@ Start of Day 2: timing and reliability
 | Interrupt basic | Loop is busy blinking with delay(). POLL button is missed, INTERRUPT button lights its LED at once | https://wokwi.com/projects/479735998133173249 |
 | E6 with timers | Adds SOAKING with a timer + watchdog (type `h`) | https://wokwi.com/projects/479596160729821185 |
 
-The greenhouse builds (E1 to E6, SOAKING) share one circuit (`wokwi/diagram.json`). Millis on button, Interrupt basic and WiFi basic have their own small circuits.
+The greenhouse builds (E1 to E6, SOAKING) share one circuit (`wokwi/diagram.json`). Millis on button, Interrupt basic, WiFi basic and the HTTP examples have their own small circuits.
 
 | Part | ESP32 pin |
 |---|---|
@@ -57,6 +57,9 @@ The greenhouse builds (E1 to E6, SOAKING) share one circuit (`wokwi/diagram.json
 | Build | What it shows | Open and run |
 |---|---|---|
 | WiFi basic | Connect to WiFi (`Wokwi-GUEST`, no password) and print the IP address | https://wokwi.com/projects/479741033012992001 |
+| HTTP My IP | Ask the internet for your public IP (api.ipify.org) | https://wokwi.com/projects/479742038793952257 |
+| HTTP Time | Get the time now in Colombo from the internet (wttr.in) | https://wokwi.com/projects/479742056680576001 |
+| HTTP Weather | Get the weather now in Colombo (wttr.in) | https://wokwi.com/projects/479742075011788801 |
 | I1 Publish | WiFi + MQTT: one JSON message every 5 s | https://wokwi.com/projects/479597790735339521 |
 | I2 Online greenhouse | E6 + telemetry, Last Will, remote orders (`useTLS = true` = encrypted) | https://wokwi.com/projects/479597904048686081 |
 | I3 Phone alerts | I2 + ntfy push when an alarm starts or clears | https://wokwi.com/projects/479598475249100801 |
