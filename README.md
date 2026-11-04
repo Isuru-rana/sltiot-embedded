@@ -6,13 +6,27 @@ Everything runs online. No hardware, no installs: open a Wokwi link and press th
 
 ## Day 1: Embedded (inside the greenhouse controller)
 
+What we built in class, in order:
+
+| Step | What it shows | Open and run |
+|---|---|---|
+| 1. Digital | Switch on pin 14 turns the LED on pin 18 on and off | https://wokwi.com/projects/479648555380147201 |
+| 2. Analog | Knob on pin 34 sets LED brightness on pin 18 (`pot * 255 / 4095`) | https://wokwi.com/projects/479656776007799809 |
+| 3. DHT22 | Read temperature and humidity (pin 15) | https://wokwi.com/projects/479658635297239041 |
+| 4. OLED | Print text on the SSD1306 screen (SDA 21, SCL 22) | https://wokwi.com/projects/479660226991136769 |
+| 5. Simple device | Whole greenhouse with only if/else: fan by temp, pump by soil or button, alarm by door or heat, OLED | https://wokwi.com/projects/479662728307194881 |
+| 6. State machine | IDLE, WATERING, ALARM with only if/else and HIGH/LOW | https://wokwi.com/projects/479663430209541121 |
+
+Code: steps 1 to 5 in `code/basics/`, step 6 in `code/e6_simple_state/`.
+
+More Day 1 builds (one topic each, for practice at home):
+
 | Build | What it shows | Open and run |
 |---|---|---|
 | E1 Digital I/O | Door switch, WATER button, debounce | https://wokwi.com/projects/479595805973381121 |
 | E2 ADC | Soil moisture: raw, volts, percent | https://wokwi.com/projects/479595875908180993 |
 | E3 PWM | Fan speed follows temperature | https://wokwi.com/projects/479595945188667393 |
 | E4 Buses | I2C scan, OLED status screen, DHT22 | https://wokwi.com/projects/479596015335278593 |
-| E6 State machine | IDLE, WATERING, ALARM with only if/else (no timers) | https://wokwi.com/projects/479663430209541121 |
 
 Start of Day 2: timing and reliability
 
@@ -47,18 +61,6 @@ All builds share one circuit (`wokwi/diagram.json`):
 Change `farmId` to your own name (place + number, e.g. `KANDY-21`) and your greenhouse appears on the wall.
 In I3 change `ntfyTopic` to a hard-to-guess name and subscribe to it in the free ntfy app.
 I5 note: Wokwi restarts the chip instead of a true deep sleep, so its wake counter stays at 1 there. On real hardware it counts up.
-
-## Basic examples (one thing at a time)
-
-| Example | What it shows | Open and run |
-|---|---|---|
-| Digital | Switch on pin 14 turns the LED on pin 18 on and off | https://wokwi.com/projects/479648555380147201 |
-| Analog | Knob on pin 34 sets LED brightness on pin 18 (`pot * 255 / 4095`) | https://wokwi.com/projects/479656776007799809 |
-| DHT22 | Read temperature and humidity (pin 15) | https://wokwi.com/projects/479658635297239041 |
-| OLED | Print text on the SSD1306 screen (SDA 21, SCL 22) | https://wokwi.com/projects/479660226991136769 |
-| Simple device | Whole greenhouse with only if/else: fan by temp, pump by soil or button, alarm by door or heat, OLED | https://wokwi.com/projects/479662728307194881 |
-
-Code in `code/basics/`.
 
 ## The farm
 
