@@ -39,7 +39,7 @@ Start of Day 2: timing and reliability
 | Interrupt basic | Loop is busy blinking with delay(). POLL button is missed, INTERRUPT button lights its LED at once | https://wokwi.com/projects/479735998133173249 |
 | E6 with timers | Adds SOAKING with a timer + watchdog (type `h`) | https://wokwi.com/projects/479596160729821185 |
 
-All builds share one circuit (`wokwi/diagram.json`):
+The greenhouse builds (E1 to E6, SOAKING) share one circuit (`wokwi/diagram.json`). Millis on button and Interrupt basic have their own small circuits.
 
 | Part | ESP32 pin |
 |---|---|
