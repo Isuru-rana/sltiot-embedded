@@ -60,7 +60,7 @@ The greenhouse builds (E1 to E6, SOAKING) share one circuit (`wokwi/diagram.json
 | HTTP My IP | Ask the internet for your public IP (api.ipify.org) | https://wokwi.com/projects/479742038793952257 |
 | HTTP Time | Get the time now in Colombo from the internet (wttr.in) | https://wokwi.com/projects/479742056680576001 |
 | HTTP Weather | Get the weather now in Colombo (wttr.in) | https://wokwi.com/projects/479742075011788801 |
-| ntfy basic | Phone notification every 5 s (10 messages). Change `topic`, subscribe in the ntfy app | Wokwi link coming |
+| ntfy basic | Phone notification every 5 s (10 messages). Change `topic`, subscribe in the ntfy app | https://wokwi.com/projects/479744623651231745 |
 | I1 Publish | WiFi + MQTT: one JSON message every 5 s | https://wokwi.com/projects/479597790735339521 |
 | I2 Online greenhouse | E6 + telemetry, Last Will, remote orders (`useTLS = true` = encrypted) | https://wokwi.com/projects/479597904048686081 |
 | I3 Phone alerts | I2 + ntfy push when an alarm starts or clears | https://wokwi.com/projects/479598475249100801 |
