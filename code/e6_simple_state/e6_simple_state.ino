@@ -40,18 +40,12 @@ void loop() {
 
   if (state == "IDLE") {
     digitalWrite(pumpPin, LOW);
+    digitalWrite(fanPin, LOW);
 
     if (door == HIGH) {
-      digitalWrite(fanPin, LOW);
       digitalWrite(alarmPin, HIGH);
     } else {
       digitalWrite(alarmPin, LOW);
-
-      if (temp > 30) {
-        digitalWrite(fanPin, HIGH);
-      } else {
-        digitalWrite(fanPin, LOW);
-      }
     }
 
     if (temp > 40) {
@@ -61,18 +55,12 @@ void loop() {
     }
   } else if (state == "WATERING") {
     digitalWrite(pumpPin, HIGH);
+    digitalWrite(fanPin, LOW);
 
     if (door == HIGH) {
-      digitalWrite(fanPin, LOW);
       digitalWrite(alarmPin, HIGH);
     } else {
       digitalWrite(alarmPin, LOW);
-
-      if (temp > 30) {
-        digitalWrite(fanPin, HIGH);
-      } else {
-        digitalWrite(fanPin, LOW);
-      }
     }
 
     if (temp > 40) {
