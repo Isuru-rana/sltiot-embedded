@@ -39,7 +39,7 @@ Start of Day 2: timing and reliability
 | Interrupt basic | Loop is busy blinking with delay(). POLL button is missed, INTERRUPT button lights its LED at once | https://wokwi.com/projects/479735998133173249 |
 | E6 with timers | Adds SOAKING with a timer + watchdog (type `h`) | https://wokwi.com/projects/479596160729821185 |
 
-The greenhouse builds (E1 to E6, SOAKING) share one circuit (`wokwi/diagram.json`). Millis on button, Interrupt basic, WiFi basic and the HTTP examples have their own small circuits.
+The greenhouse builds (E1 to E6, SOAKING) share one circuit (`wokwi/diagram.json`). Millis on button, Interrupt basic, WiFi basic, the HTTP and MQTT examples have their own small circuits.
 
 | Part | ESP32 pin |
 |---|---|
@@ -61,6 +61,8 @@ The greenhouse builds (E1 to E6, SOAKING) share one circuit (`wokwi/diagram.json
 | HTTP Time | Get the time now in Colombo from the internet (wttr.in) | https://wokwi.com/projects/479742056680576001 |
 | HTTP Weather | Get the weather now in Colombo (wttr.in) | https://wokwi.com/projects/479742075011788801 |
 | ntfy basic | Phone notification every 5 s (10 messages). Change `topic`, subscribe in the ntfy app | https://wokwi.com/projects/479744623651231745 |
+| MQTT send | Send "Hello from ESP32" every 5 s to `sltiot/change-me/hello`. Watch it in the HiveMQ web client | https://wokwi.com/projects/479744908267372545 |
+| MQTT LED | Send `1` or `0` to `sltiot/change-me/led` from the HiveMQ web client: LED turns on or off | https://wokwi.com/projects/479744943344349185 |
 | I1 Publish | WiFi + MQTT: one JSON message every 5 s | https://wokwi.com/projects/479597790735339521 |
 | I2 Online greenhouse | E6 + telemetry, Last Will, remote orders (`useTLS = true` = encrypted) | https://wokwi.com/projects/479597904048686081 |
 | I3 Phone alerts | I2 + ntfy push when an alarm starts or clears | https://wokwi.com/projects/479598475249100801 |
