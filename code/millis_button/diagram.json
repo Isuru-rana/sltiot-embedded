@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "author": "SLT IoT and Embedded Systems",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-pushbutton", "id": "btn", "top": 40, "left": -180, "attrs": { "color": "green", "label": "PRESS", "bounce": "0" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "btn:1.r", "esp:14", "green", [] ],
+    [ "btn:2.r", "esp:GND.1", "black", [] ]
+  ],
+  "dependencies": {}
+}
